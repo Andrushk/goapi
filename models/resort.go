@@ -4,5 +4,5 @@ package models
 type Resort struct{
 	ID int `json:"id"`
 	Title string `json:"title"`
-	Active int  `json:"active"`
+	State int  `json:"state"` // Удалено: -1, Неактивно: 0, Активно: 1
 }
