@@ -27,5 +27,6 @@ var NewsByResort = func(w http.ResponseWriter, r *http.Request) {
 var AllNews []m.News = []m.News {
 	m.News{ResortID: 1, Title: "FastRide news 1", Body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."},
 	m.News{ResortID: 1, Title: "FastRide news 2", Body: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."},
+	m.News{ResortID: 1, Title: "Дизайн", Body: "Встречайте FastRide в новом дизайне: желтый и позитивный как солнышко!"},
 	m.News{ResortID: 2, Title: "Терраски news 1", Body: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."},
 }

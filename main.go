@@ -14,7 +14,8 @@ func main() {
 	router.Use(app.Authentication) // добавляем middleware аутентификации
 
 	router.HandleFunc("/api/resorts/all", controllers.ResortsAll).Methods("GET")
-	router.HandleFunc("/api/news/resort/{id}", controllers.NewsByResort).Methods("GET")
+	router.HandleFunc("/api/news/resort", controllers.NewsByResort).Queries("id", "{id}").Methods("GET")
+	router.HandleFunc("/api/skipasses/all", controllers.SkipassesAll).Methods("GET")
 	//TODO GET: \price?resort_id=GUID - лист услуг конкретной горнолыжки
 	//TODO POST: \acquirer_notification - статусы от Тинька
 

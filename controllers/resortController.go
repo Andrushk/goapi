@@ -20,6 +20,15 @@ var ResortsAll = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, result)
 }
 
+func resortByID(id int) m.Resort{
+	for _, n := range ResortsAllData {
+		if n.ID == id {
+			return n
+		}
+	}
+	return m.Resort{}
+}
+
 // ResortsAllData - список всех курортов, должен хранится в БД
 var ResortsAllData []m.Resort = []m.Resort{
 	m.Resort{ID: 1, Title: "FastRide", State: 1},
