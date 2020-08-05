@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
+	"github.com/gorilla/mux"
 
 	m "github.com/andrushk/goapi/models"
 	u "github.com/andrushk/goapi/utils"
@@ -20,6 +22,27 @@ var SkipassesAll = func(w http.ResponseWriter, r *http.Request) {
 	}
 
 	u.Respond(w, result)
+}
+
+// SkipassDelete - удаляет скипас
+var SkipassDelete = func(w http.ResponseWriter, r *http.Request) {
+	user := r.Context().Value("user").(int) //Получение идентификатора пользователя, отправившего запрос
+	vars := mux.Vars(r)
+	key := vars["id"]
+
+	newAll := []m.Skipass{}
+	deleteOk := false
+
+	for _, n := range SkipassesAllData {
+		if n.UserID == user && key==strconv.Itoa(n.ID) {
+			deleteOk = true
+			continue
+		}
+		newAll = append(newAll, n)
+	}
+	SkipassesAllData = newAll
+
+	u.Respond(w, deleteOk)
 }
 
 // SkipassesAllData - список всех скипасов, должен хранится в БД
