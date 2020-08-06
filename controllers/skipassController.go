@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
+
 	"github.com/gorilla/mux"
 
 	m "github.com/andrushk/goapi/models"
@@ -24,6 +27,32 @@ var SkipassesAll = func(w http.ResponseWriter, r *http.Request) {
 	u.Respond(w, result)
 }
 
+// SkipassPut - создать или изменить скипас
+var SkipassPut = func(w http.ResponseWriter, r *http.Request) {
+	user := r.Context().Value("user").(int) //Получение идентификатора пользователя, отправившего запрос
+
+	var skipass m.Skipass
+	_ = json.NewDecoder(r.Body).Decode(&skipass)
+
+		// нет ID - это инсерт
+		if skipass.ID == 0 {
+		// сэрвер должен игнорить некоторые данные, например, сам должен
+		// проставить UserID
+		skipass.ID = getID()
+		skipass.Resort = resortByID(skipass.Resort.ID)
+		skipass.State = 1
+		skipass.UserID = user
+
+		SkipassesAllData = append(SkipassesAllData, skipass)
+
+		u.Respond(w, skipass)
+	} else {
+		fmt.Println("Skipass ID: " + strconv.Itoa(skipass.ID))
+		u.Respond(w, "update не реализован")
+	}
+
+}
+
 // SkipassDelete - удаляет скипас
 var SkipassDelete = func(w http.ResponseWriter, r *http.Request) {
 	user := r.Context().Value("user").(int) //Получение идентификатора пользователя, отправившего запрос
@@ -34,7 +63,7 @@ var SkipassDelete = func(w http.ResponseWriter, r *http.Request) {
 	deleteOk := false
 
 	for _, n := range SkipassesAllData {
-		if n.UserID == user && key==strconv.Itoa(n.ID) {
+		if n.UserID == user && key == strconv.Itoa(n.ID) {
 			deleteOk = true
 			continue
 		}
@@ -43,6 +72,16 @@ var SkipassDelete = func(w http.ResponseWriter, r *http.Request) {
 	SkipassesAllData = newAll
 
 	u.Respond(w, deleteOk)
+}
+
+func getID() int {
+	newID := 0
+	for _, n := range SkipassesAllData {
+		if n.ID > newID {
+			newID = n.ID
+		}
+	}
+	return newID + 1
 }
 
 // SkipassesAllData - список всех скипасов, должен хранится в БД

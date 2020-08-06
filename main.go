@@ -16,7 +16,8 @@ func main() {
 	router.HandleFunc("/api/resorts/all", controllers.ResortsAll).Methods("GET")
 	router.HandleFunc("/api/news/resort", controllers.NewsByResort).Queries("id", "{id}").Methods("GET")
 	router.HandleFunc("/api/skipasses/all", controllers.SkipassesAll).Methods("GET")
-	router.HandleFunc("/api/skipasses/delete", controllers.SkipassDelete).Queries("id", "{id}").Methods("DELETE")
+	router.HandleFunc("/api/skipasses", controllers.SkipassPut).Methods("PUT")
+	router.HandleFunc("/api/skipasses", controllers.SkipassDelete).Queries("id", "{id}").Methods("DELETE")
 	//TODO GET: \price?resort_id=GUID - лист услуг конкретной горнолыжки
 	//TODO POST: \acquirer_notification - статусы от Тинька
 
